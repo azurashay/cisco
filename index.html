@@ -288,54 +288,57 @@
       }
 
       function App() {
-        const sectionRefs = React.useRef([]);
         const [activeIndex, setActiveIndex] = React.useState(0);
         const [highestSection, setHighestSection] = React.useState(0);
+        const isScrolling = React.useRef(false);
 
+        // גלילה עם עכבר
         React.useEffect(() => {
-          const handleScroll = () => {
-            const offsets = sectionRefs.current.map(ref => ref?.getBoundingClientRect().top);
-            const index = offsets.findIndex(offset => offset > window.innerHeight * 0.3);
-            const newActive = index === -1 ? sections.length - 1 : Math.max(0, index - 1);
-            setActiveIndex(newActive);
-            setHighestSection(prev =>
-              newActive > prev ? newActive : newActive < prev ? newActive : prev
-            );
-          };
-          window.addEventListener('scroll', handleScroll);
-          handleScroll();
-          return () => window.removeEventListener('scroll', handleScroll);
-        }, []);
+          const handleWheel = (e) => {
+            e.preventDefault();
+            if (isScrolling.current) return;
+            isScrolling.current = true;
+            setTimeout(() => { isScrolling.current = false; }, 600); // מניעת דילוגים מהירים
 
+            if (e.deltaY > 0 && activeIndex < sections.length - 1) {
+              setActiveIndex(idx => {
+                const next = Math.min(idx + 1, sections.length - 1);
+                setHighestSection(prev => Math.max(prev, next));
+                return next;
+              });
+            } else if (e.deltaY < 0 && activeIndex > 0) {
+              setActiveIndex(idx => Math.max(idx - 1, 0));
+            }
+          };
+          window.addEventListener('wheel', handleWheel, { passive: false });
+          return () => window.removeEventListener('wheel', handleWheel);
+        }, [activeIndex]);
+
+        // קפיצה מפס התקדמות
         const handleJump = idx => {
-          const ref = sectionRefs.current[idx];
-          if (ref) {
-            ref.scrollIntoView({ behavior: 'smooth' });
-          }
+          setActiveIndex(idx);
+          setHighestSection(prev => Math.max(prev, idx));
         };
 
         return (
-          <div className="bg-[var(--fz-color-primary-7)] min-h-screen text-gray-100 font-sans relative">
+          <div className="bg-[var(--fz-color-primary-7)] min-h-screen text-gray-100 font-sans relative overflow-hidden">
             <StickyLogo />
             <ProgressBar
               count={sections.length}
               activeIndex={activeIndex}
-              highestSection={highestSection}
+              highestSection={activeIndex}
               onJump={handleJump}
               sectionTitles={sections.map(s => s.title)}
             />
             <main>
-              {sections.map((section, idx) => (
-                <Section
-                  key={idx}
-                  ref={el => (sectionRefs.current[idx] = el)}
-                  title={section.title}
-                  text={section.text}
-                  index={idx}
-                  list={section.list}
-                  custom={section.custom}
-                />
-              ))}
+              <Section
+                key={activeIndex}
+                title={sections[activeIndex].title}
+                text={sections[activeIndex].text}
+                index={activeIndex}
+                list={sections[activeIndex].list}
+                custom={sections[activeIndex].custom}
+              />
             </main>
           </div>
         );
