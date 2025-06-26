@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="he" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cisco Hybrid Mesh Firewall</title>
+    <link rel="stylesheet" href="theme/cisco_theme.css" />
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      html, body { font-family: var(--fz-font-family-1, 'Cisco Sans', sans-serif) !important; }
+      body {
+        background-color: var(--fz-color-primary-7) !important;
+        color: #f3f3f3;
+        background-image: url('banner/network-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+      .cisco-btn-primary {
+        font-family: var(--fz-btn-global-font-family);
+        font-size: var(--fz-btn-global-font-size);
+        font-weight: var(--fz-btn-global-weight);
+        line-height: var(--fz-btn-global-line-height);
+        letter-spacing: var(--fz-btn-global-letter-spacing);
+        padding: var(--fz-btn-primary-padding);
+        border-radius: var(--fz-btn-primary-border-radius);
+        background: var(--fz-btn-primary-bg);
+        color: var(--fz-btn-primary-color);
+        border: var(--fz-btn-primary-border-color);
+        transition: var(--fz-btn-global-animation-transition);
+        cursor: pointer;
+        outline: none;
+        margin: 1rem 0;
+      }
+      .cisco-btn-primary:hover {
+        background: var(--fz-btn-primary-hover-bg);
+        color: var(--fz-btn-primary-hover-color);
+      }
+      .text-yellow-400 { color: var(--fz-color-primary-5) !important; }
+      .progress-tooltip {
+        position: absolute;
+        left: 2.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--fz-color-neutral-0);
+        color: var(--fz-color-primary-5);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        font-size: 1rem;
+        font-family: var(--fz-font-family-1, 'Cisco Sans', sans-serif);
+        white-space: nowrap;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .progress-bar-item:hover .progress-tooltip {
+        opacity: 1;
+      }
+      .section-bg-cisco {
+        background-color: var(--fz-color-primary-7) !important;
+        background-image: url('banner/network-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        z-index: 0;
+      }
+      .section-content-cisco {
+        position: relative;
+        z-index: 2;
+      }
+      .section-content-cisco h2 {
+        font-size: 28px !important;
+        line-height: 1.2;
+      }
+      .section-content-cisco pre, .section-content-cisco ul, .section-content-cisco li {
+        font-size: 18px !important;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body class="bg-[var(--fz-color-primary-7)]">
+    <div id="root"></div>
+    <script type="text/babel">
+      const videoFiles = [
+        "banner/Generated File June 26, 2025 - 12_13PM.mp4",
+        "banner/Generated File June 26, 2025 - 12_08PM.mp4",
+        "banner/Generated File June 26, 2025 - 11_51AM.mp4"
+      ];
+
+      const sections = [
+        {
+          title: 'Cisco Hybrid Mesh Firewall',
+          text: 'The Cisco Hybrid Mesh Firewall is an advanced, distributed security solution designed to protect organizations across hybrid environments—including data centers, cloud, campus, IoT, and Kubernetes environments. The solution provides unified management, automation, and AI-powered capabilities to reduce the attack surface, prevent breaches, and stop lateral movement by attackers.',
+        },
+        {
+          title: 'Key Principles and Benefits',
+          text: 'Distributed and Flexible Security: Deploy anywhere—on-prem, cloud, containers, IoT. Unified, AI-Driven Management: Centralized, automated, and AI-powered. Visibility and Control: Deep traffic and app insight, granular policy, rapid threat detection. Scalable and Modern Architecture: Built for growth and hybrid IT. Zero Trust and Compliance: Supports zero trust and regulatory needs.',
+        },
+        {
+          title: 'Use Cases',
+          list: [
+            'Protecting hybrid and multi-cloud environments',
+            'Securing campus and branch networks',
+            'Enabling secure remote work',
+            'Safeguarding IoT and OT assets',
+            'Enhancing security for containerized and Kubernetes workloads',
+          ],
+        },
+        {
+          title: 'Why Cisco?',
+          text: "Cisco's Hybrid Mesh Firewall leverages decades of security expertise, global threat intelligence, and a robust ecosystem to deliver a comprehensive, future-ready firewall platform for modern enterprises.",
+        },
+        {
+          title: 'AI-Powered Threat Detection',
+          text: 'Leverage advanced AI and machine learning to detect and respond to threats in real time, minimizing risk and improving security posture.',
+        },
+        {
+          title: 'Seamless Cloud Integration',
+          text: 'Integrate security seamlessly across public, private, and hybrid clouds, ensuring consistent protection and compliance everywhere.',
+        },
+        {
+          title: 'Comprehensive Visibility',
+          text: 'Gain end-to-end visibility into your entire network, applications, and users, enabling proactive security management.',
+        },
+        {
+          title: 'Ready for Secure Hybrid Networking?',
+          custom: true,
+        },
+      ];
+
+      function ProgressBar({ count, activeIndex, highestSection, onJump, sectionTitles }) {
+        const [hovered, setHovered] = React.useState(null);
+        return (
+          <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+            {Array.from({ length: count }).map((_, idx) => (
+              <div
+                key={idx}
+                className={`progress-bar-item relative w-2 h-10 rounded transition-all duration-300 cursor-pointer ${idx <= highestSection ? 'opacity-100 shadow-lg' : 'opacity-30'}`}
+                style={{ background: 'var(--fz-color-primary-5)' }}
+                onClick={() => onJump(idx)}
+                onMouseEnter={() => setHovered(idx)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                {hovered === idx && (
+                  <span className="progress-tooltip">{sectionTitles[idx]}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      // Section component: מוסיף רקע עם תמונה ועדינות
+      const Section = React.forwardRef(({ title, text, index, list, custom }, ref) => {
+        const [visible, setVisible] = React.useState(false);
+        const [skew, setSkew] = React.useState(0);
+        const localRef = React.useRef();
+        const setRefs = el => {
+          localRef.current = el;
+          if (ref) ref(el);
+        };
+
+        React.useEffect(() => {
+          const observer = new window.IntersectionObserver(
+            ([entry]) => setVisible(entry.isIntersecting),
+            { threshold: 0.3 }
+          );
+          if (localRef.current) observer.observe(localRef.current);
+          return () => observer.disconnect();
+        }, []);
+
+        // אפקט זווית דינמית לפי גלילה
+        React.useEffect(() => {
+          const handleScroll = () => {
+            if (!localRef.current) return;
+            const rect = localRef.current.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const rel = Math.max(0, Math.min(1, 1 - Math.abs(rect.top + rect.height/2 - windowHeight/2) / (windowHeight/2)));
+            const dynamicSkew = (index % 2 === 0 ? 1 : -1) * (rel * 18);
+            setSkew(dynamicSkew);
+          };
+          window.addEventListener('scroll', handleScroll);
+          handleScroll();
+          return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        const isEven = index % 2 === 1;
+        const flexDirection = isEven ? 'md:flex-row-reverse' : 'md:flex-row';
+        const textAlign = 'text-left md:text-left md:ml-12 md:mr-0';
+        const videoSrc = videoFiles[index % videoFiles.length];
+
+        // סקשן אחרון בעיצוב מיוחד
+        if (custom) {
+          return (
+            <section
+              ref={setRefs}
+              dir="ltr"
+              className={`section-bg-cisco h-screen grid grid-cols-1 md:grid-cols-2 items-center justify-center px-6 md:px-24 gap-16 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              style={{position:'relative', overflow:'hidden'}}>
+              {/* וידאו כרקע */}
+              <video
+                src="banner/853822-hd_1920_1080_25fps.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  zIndex: 0,
+                  opacity: 1,
+                  pointerEvents: 'none',
+                }}
+              />
+              {/* overlay כהה */}
+              <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'rgba(0,0,0,0.8)',zIndex:1,pointerEvents:'none'}} />
+              <div className="flex flex-col justify-center items-start md:items-end section-content-cisco z-10">
+                <div>
+                  <div className="text-[40px] md:text-[64px] font-bold leading-tight text-yellow-400 mb-16 text-left md:text-right">
+                    Any user.<br/>Any device.<br/>Any cloud.<br/>Secured.
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center items-start bg-[rgba(0,0,0,0.35)] p-8 rounded-xl max-w-xl section-content-cisco z-10">
+                <div className="text-white text-lg mb-4">Cisco Hybrid Mesh Firewall secures your:</div>
+                <ul className="mb-4 space-y-2 list-disc pl-6">
+                  <li>Hybrid and multi-cloud environments</li>
+                  <li>Users, devices, and applications everywhere</li>
+                  <li>AI-driven threat prevention</li>
+                </ul>
+                <div className="text-gray-200 mb-6">Unified, scalable, and future-ready security for the modern enterprise. Protect your organization from advanced threats and simplify your operations with Cisco.</div>
+                <button className="cisco-btn-primary text-lg px-8 py-3" style={{border:'2px solid var(--fz-color-primary-5)', background:'transparent', color:'var(--fz-color-primary-5)'}}>GET STARTED</button>
+              </div>
+            </section>
+          );
+        }
+
+        return (
+          <section
+            ref={setRefs}
+            dir="ltr"
+            className={`section-bg-cisco h-screen flex flex-col ${flexDirection} items-center justify-center px-6 md:px-24 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+          >
+            <div className={`section-content-cisco flex-1 mb-8 md:mb-0 ${textAlign}`}>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-yellow-400 text-left">{title}</h2>
+              {list ? (
+                <ul className="list-disc text-lg md:text-2xl text-gray-300 max-w-xl text-left">
+                  {list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <pre className="text-lg md:text-2xl text-gray-300 max-w-xl whitespace-pre-line text-left" style={{background:'none',fontFamily:'inherit'}}>{text}</pre>
+              )}
+            </div>
+            <div className="section-content-cisco flex-1 flex justify-center">
+              <div className={`rounded-xl shadow-lg max-h-[95vh] w-[98%] overflow-hidden flex justify-center items-center`}>
+                <video
+                  src={videoSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className={`object-cover w-full max-h-[95vh] transition-transform duration-700`}
+                  style={{ borderRadius: '0.75rem', transform: `skewX(${skew}deg)` }}
+                />
+              </div>
+            </div>
+          </section>
+        );
+      });
+
+      function StickyLogo() {
+        return (
+          <header className="sticky top-0 z-50 bg-[var(--fz-color-primary-7)] flex flex-col justify-center items-center py-4 shadow-md">
+            <img src="banner/Cisco-logo.png" alt="Cisco Logo" className="h-10 w-auto mx-auto" />
+          </header>
+        );
+      }
+
+      function App() {
+        const sectionRefs = React.useRef([]);
+        const [activeIndex, setActiveIndex] = React.useState(0);
+        const [highestSection, setHighestSection] = React.useState(0);
+
+        React.useEffect(() => {
+          const handleScroll = () => {
+            const offsets = sectionRefs.current.map(ref => ref?.getBoundingClientRect().top);
+            const index = offsets.findIndex(offset => offset > window.innerHeight * 0.3);
+            const newActive = index === -1 ? sections.length - 1 : Math.max(0, index - 1);
+            setActiveIndex(newActive);
+            setHighestSection(prev =>
+              newActive > prev ? newActive : newActive < prev ? newActive : prev
+            );
+          };
+          window.addEventListener('scroll', handleScroll);
+          handleScroll();
+          return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        const handleJump = idx => {
+          const ref = sectionRefs.current[idx];
+          if (ref) {
+            ref.scrollIntoView({ behavior: 'smooth' });
+          }
+        };
+
+        return (
+          <div className="bg-[var(--fz-color-primary-7)] min-h-screen text-gray-100 font-sans relative">
+            <StickyLogo />
+            <ProgressBar
+              count={sections.length}
+              activeIndex={activeIndex}
+              highestSection={highestSection}
+              onJump={handleJump}
+              sectionTitles={sections.map(s => s.title)}
+            />
+            <main>
+              {sections.map((section, idx) => (
+                <Section
+                  key={idx}
+                  ref={el => (sectionRefs.current[idx] = el)}
+                  title={section.title}
+                  text={section.text}
+                  index={idx}
+                  list={section.list}
+                  custom={section.custom}
+                />
+              ))}
+            </main>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html> 
