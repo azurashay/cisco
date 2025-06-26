@@ -74,11 +74,11 @@
         z-index: 2;
       }
       .section-content-cisco h2 {
-        font-size: 28px !important;
+        font-size: 40px !important;
         line-height: 1.2;
       }
       .section-content-cisco pre, .section-content-cisco ul, .section-content-cisco li {
-        font-size: 18px !important;
+        font-size: 24px !important;
         line-height: 1.5;
       }
     </style>
@@ -99,31 +99,36 @@
           intro: true,
         },
         {
-          title: 'Morning Calm',
+          title: 'Morning Chaos (Without Cisco)',
+          text: "Alex, a seasoned security operator, logs into a maze of disconnected dashboards. Alert fatigue sets in—hundreds of low-fidelity notifications, conflicting firewall rules, and no unified visibility across hybrid clouds.",
+          video: "banner/Generated File June 26, 2025 - 6_36PM.mp4",
+        },
+        {
+          title: 'Morning Calm (With Cisco Hybrid Mesh Firewall + AI)',
           text: "Now with Cisco's AI-native Hybrid Mesh Firewall, Alex sees prioritized, context-rich alerts surfaced by AI across environments—cloud, on-prem, containers. One dashboard. One policy engine. No guesswork.",
         },
         {
-          title: 'Incident Response',
+          title: 'Incident Response (Without Cisco)',
           text: "Midday panic: a zero-day vulnerability surfaces. Alex has to manually trace impacted assets, cross-check rules across dozens of VPCs, and coordinate between SecOps and NetOps.",
         },
         {
-          title: 'Incident Contained',
+          title: 'Incident Contained (With Cisco + AI-driven Automation)',
           text: "Cisco's AI instantly identifies affected workloads, deploys compensating policies using Secure Workload and Hypershield, and isolates traffic automatically—no human-in-the-loop required.",
         },
         {
-          title: 'Afternoon Expansion',
+          title: 'Afternoon Expansion (Without Cisco)',
           text: "The dev team spins up new cloud workloads. Alex dreads the manual policy authoring and error-prone rule replication across clouds.",
         },
         {
-          title: 'Seamless Scaling',
+          title: 'Seamless Scaling (With Cisco + AI-Driven Provisioning)',
           text: "Cisco Hybrid Mesh Firewall uses AI to learn previous patterns and auto-generates policy templates. Firewalls scale with infrastructure—zero-touch, policy-consistent, and compliant.",
         },
         {
-          title: 'End-of-Day Reflection',
+          title: 'End-of-Day Reflection (Without Cisco)',
           text: "Exhausted, uncertain, and reactive—Alex knows his team is stretched thin, always behind the threat curve.",
         },
         {
-          title: 'End-of-Day Confidence',
+          title: 'End-of-Day Confidence (With Cisco)',
           text: "AI has handled the noise, prioritized what matters, protected the environment automatically, and surfaced insights—not alerts. Alex finishes early. Strategic planning replaces firefighting.",
         },
         {
@@ -156,7 +161,7 @@
       }
 
       // Section component: מוסיף רקע עם תמונה ועדינות
-      const Section = React.forwardRef(({ title, text, index, list, custom, intro }, ref) => {
+      const Section = React.forwardRef(({ title, text, index, list, custom, intro, video }, ref) => {
         const [visible, setVisible] = React.useState(false);
         const [skew, setSkew] = React.useState(0);
         const localRef = React.useRef();
@@ -192,7 +197,7 @@
         const isEven = index % 2 === 1;
         const flexDirection = isEven ? 'md:flex-row-reverse' : 'md:flex-row';
         const textAlign = 'text-left md:text-left md:ml-12 md:mr-0';
-        const videoSrc = videoFiles[index % videoFiles.length];
+        const videoSrc = typeof video !== 'undefined' ? video : videoFiles[index % videoFiles.length];
 
         // סקשן הקדמה בעיצוב מיוחד
         if (intro) {
@@ -300,6 +305,7 @@
         return (
           <header className="sticky top-0 z-50 bg-[var(--fz-color-primary-7)] flex flex-col justify-center items-center py-4 shadow-md">
             <img src="banner/Cisco-logo.png" alt="Cisco Logo" className="h-10 w-auto mx-auto" />
+            <div style={{fontSize: '14px'}} className="text-gray-200 mt-2 tracking-wide text-center">Every workload. Every connection. Every time</div>
           </header>
         );
       }
@@ -311,11 +317,13 @@
 
         // גלילה עם עכבר
         React.useEffect(() => {
+          const SCROLL_THRESHOLD = 15;
           const handleWheel = (e) => {
             e.preventDefault();
             if (isScrolling.current) return;
+            if (Math.abs(e.deltaY) < SCROLL_THRESHOLD) return;
             isScrolling.current = true;
-            setTimeout(() => { isScrolling.current = false; }, 600); // מניעת דילוגים מהירים
+            setTimeout(() => { isScrolling.current = false; }, 600);
 
             if (e.deltaY > 0 && activeIndex < sections.length - 1) {
               setActiveIndex(idx => {
@@ -356,6 +364,7 @@
                 list={sections[activeIndex].list}
                 custom={sections[activeIndex].custom}
                 intro={sections[activeIndex].intro}
+                video={sections[activeIndex].video}
               />
             </main>
           </div>
