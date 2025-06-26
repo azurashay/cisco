@@ -94,41 +94,41 @@
 
       const sections = [
         {
-          title: 'Cisco Hybrid Mesh Firewall',
-          text: 'The Cisco Hybrid Mesh Firewall is an advanced, distributed security solution designed to protect organizations across hybrid environments—including data centers, cloud, campus, IoT, and Kubernetes environments. The solution provides unified management, automation, and AI-powered capabilities to reduce the attack surface, prevent breaches, and stop lateral movement by attackers.',
+          title: 'A Day in the Life of Alex,\na Cloud Security Engineer',
+          text: 'How Hybrid Mesh Firewall 2025\nPowered by AI saves the day',
+          intro: true,
         },
         {
-          title: 'Key Principles and Benefits',
-          text: 'Distributed and Flexible Security: Deploy anywhere—on-prem, cloud, containers, IoT. Unified, AI-Driven Management: Centralized, automated, and AI-powered. Visibility and Control: Deep traffic and app insight, granular policy, rapid threat detection. Scalable and Modern Architecture: Built for growth and hybrid IT. Zero Trust and Compliance: Supports zero trust and regulatory needs.',
+          title: 'Morning Calm',
+          text: "Now with Cisco's AI-native Hybrid Mesh Firewall, Alex sees prioritized, context-rich alerts surfaced by AI across environments—cloud, on-prem, containers. One dashboard. One policy engine. No guesswork.",
         },
         {
-          title: 'Use Cases',
-          list: [
-            'Protecting hybrid and multi-cloud environments',
-            'Securing campus and branch networks',
-            'Enabling secure remote work',
-            'Safeguarding IoT and OT assets',
-            'Enhancing security for containerized and Kubernetes workloads',
-          ],
+          title: 'Incident Response',
+          text: "Midday panic: a zero-day vulnerability surfaces. Alex has to manually trace impacted assets, cross-check rules across dozens of VPCs, and coordinate between SecOps and NetOps.",
         },
         {
-          title: 'Why Cisco?',
-          text: "Cisco's Hybrid Mesh Firewall leverages decades of security expertise, global threat intelligence, and a robust ecosystem to deliver a comprehensive, future-ready firewall platform for modern enterprises.",
+          title: 'Incident Contained',
+          text: "Cisco's AI instantly identifies affected workloads, deploys compensating policies using Secure Workload and Hypershield, and isolates traffic automatically—no human-in-the-loop required.",
         },
         {
-          title: 'AI-Powered Threat Detection',
-          text: 'Leverage advanced AI and machine learning to detect and respond to threats in real time, minimizing risk and improving security posture.',
+          title: 'Afternoon Expansion',
+          text: "The dev team spins up new cloud workloads. Alex dreads the manual policy authoring and error-prone rule replication across clouds.",
         },
         {
-          title: 'Seamless Cloud Integration',
-          text: 'Integrate security seamlessly across public, private, and hybrid clouds, ensuring consistent protection and compliance everywhere.',
+          title: 'Seamless Scaling',
+          text: "Cisco Hybrid Mesh Firewall uses AI to learn previous patterns and auto-generates policy templates. Firewalls scale with infrastructure—zero-touch, policy-consistent, and compliant.",
         },
         {
-          title: 'Comprehensive Visibility',
-          text: 'Gain end-to-end visibility into your entire network, applications, and users, enabling proactive security management.',
+          title: 'End-of-Day Reflection',
+          text: "Exhausted, uncertain, and reactive—Alex knows his team is stretched thin, always behind the threat curve.",
         },
         {
-          title: 'Ready for Secure Hybrid Networking?',
+          title: 'End-of-Day Confidence',
+          text: "AI has handled the noise, prioritized what matters, protected the environment automatically, and surfaced insights—not alerts. Alex finishes early. Strategic planning replaces firefighting.",
+        },
+        {
+          title: 'Let AI handle the complexity. See how Cisco Hybrid Mesh Firewall transforms your day. Schedule a demo now.',
+          text: "Imagine your security team with time to think, plan, and breathe. Cisco Hybrid Mesh Firewall turns your environment into an AI-powered security fabric.",
           custom: true,
         },
       ];
@@ -156,7 +156,7 @@
       }
 
       // Section component: מוסיף רקע עם תמונה ועדינות
-      const Section = React.forwardRef(({ title, text, index, list, custom }, ref) => {
+      const Section = React.forwardRef(({ title, text, index, list, custom, intro }, ref) => {
         const [visible, setVisible] = React.useState(false);
         const [skew, setSkew] = React.useState(0);
         const localRef = React.useRef();
@@ -194,6 +194,27 @@
         const textAlign = 'text-left md:text-left md:ml-12 md:mr-0';
         const videoSrc = videoFiles[index % videoFiles.length];
 
+        // סקשן הקדמה בעיצוב מיוחד
+        if (intro) {
+          return (
+            <section
+              ref={setRefs}
+              dir="ltr"
+              className={`section-bg-cisco h-screen flex flex-col items-center justify-center px-6 md:px-24 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              style={{position:'relative', overflow:'hidden'}}>
+              <div className="flex flex-col items-center justify-center w-full h-full">
+                <div className="uppercase tracking-widest text-yellow-400 text-lg md:text-xl mb-6 font-semibold">SOFTWARE FIREWALLS</div>
+                <pre className="text-[40px] md:text-[56px] font-bold leading-tight text-yellow-400 mb-8 text-center" style={{textShadow:'0 2px 16px #0008', background:'none', fontFamily:'inherit', whiteSpace:'pre-line'}}>{title}</pre>
+                <pre className="text-2xl md:text-3xl text-white font-medium text-center mb-12" style={{textShadow:'0 2px 16px #0008', background:'none', fontFamily:'inherit', whiteSpace:'pre-line'}}>{text}</pre>
+                <div className="flex flex-col items-center mt-8 animate-bounce">
+                  <span className="text-white text-lg">Scroll to begin</span>
+                  <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#fff2"/><path d="M12 8v8m0 0-3-3m3 3 3-3" stroke="#FFD600" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+              </div>
+            </section>
+          );
+        }
+
         // סקשן אחרון בעיצוב מיוחד
         if (custom) {
           return (
@@ -226,19 +247,15 @@
               <div className="flex flex-col justify-center items-start md:items-end section-content-cisco z-10">
                 <div>
                   <div className="text-[40px] md:text-[64px] font-bold leading-tight text-yellow-400 mb-16 text-left md:text-right">
-                    Any user.<br/>Any device.<br/>Any cloud.<br/>Secured.
+                    Simplify with AI. Discover Cisco Hybrid Mesh Firewall in action – book your demo today.
                   </div>
                 </div>
               </div>
               <div className="flex flex-col justify-center items-start bg-[rgba(0,0,0,0.35)] p-8 rounded-xl max-w-xl section-content-cisco z-10">
-                <div className="text-white text-lg mb-4">Cisco Hybrid Mesh Firewall secures your:</div>
-                <ul className="mb-4 space-y-2 list-disc pl-6">
-                  <li>Hybrid and multi-cloud environments</li>
-                  <li>Users, devices, and applications everywhere</li>
-                  <li>AI-driven threat prevention</li>
-                </ul>
-                <div className="text-gray-200 mb-6">Unified, scalable, and future-ready security for the modern enterprise. Protect your organization from advanced threats and simplify your operations with Cisco.</div>
-                <button className="cisco-btn-primary text-lg px-8 py-3" style={{border:'2px solid var(--fz-color-primary-5)', background:'transparent', color:'var(--fz-color-primary-5)'}}>GET STARTED</button>
+                <div className="text-white text-lg mb-4">
+                  Imagine your security team with time to think, plan, and breathe. Cisco Hybrid Mesh Firewall turns your environment into an AI-powered security fabric.
+                </div>
+                <button className="cisco-btn-primary text-lg px-8 py-3 mx-auto block mt-6" style={{border:'2px solid var(--fz-color-primary-5)', background:'transparent', color:'var(--fz-color-primary-5)'}}>Schedule a demo</button>
               </div>
             </section>
           );
@@ -328,7 +345,7 @@
               activeIndex={activeIndex}
               highestSection={activeIndex}
               onJump={handleJump}
-              sectionTitles={sections.map(s => s.title)}
+              sectionTitles={sections.map((s, i) => i === sections.length - 1 ? 'Simplify with AI.' : s.title)}
             />
             <main>
               <Section
@@ -338,6 +355,7 @@
                 index={activeIndex}
                 list={sections[activeIndex].list}
                 custom={sections[activeIndex].custom}
+                intro={sections[activeIndex].intro}
               />
             </main>
           </div>
