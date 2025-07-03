@@ -141,18 +141,18 @@
       function ProgressBar({ count, activeIndex, highestSection, onJump, sectionTitles }) {
         const [hovered, setHovered] = React.useState(null);
         return (
-          <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+          <div className="fixed left-2 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-1 md:left-6 md:gap-3 md:z-50">
             {Array.from({ length: count }).map((_, idx) => (
               <div
                 key={idx}
-                className={`progress-bar-item relative w-2 h-10 rounded transition-all duration-300 cursor-pointer ${idx <= highestSection ? 'opacity-100 shadow-lg' : 'opacity-30'}`}
+                className={`progress-bar-item relative w-1.5 h-6 rounded md:w-2 md:h-10 transition-all duration-300 cursor-pointer ${idx <= highestSection ? 'opacity-60 md:opacity-100 shadow-none md:shadow-lg' : 'opacity-20 md:opacity-30'}`}
                 style={{ background: 'var(--fz-color-primary-5)' }}
                 onClick={() => onJump(idx)}
                 onMouseEnter={() => setHovered(idx)}
                 onMouseLeave={() => setHovered(null)}
               >
                 {hovered === idx && (
-                  <span className="progress-tooltip">{sectionTitles[idx]}</span>
+                  <span className="progress-tooltip hidden md:block">{sectionTitles[idx]}</span>
                 )}
               </div>
             ))}
